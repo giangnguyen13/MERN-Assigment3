@@ -1,4 +1,4 @@
-﻿// The server.js file is the main file of your Node.js application 
+﻿// The server.js file is the main file of your Node.js application
 // It will load the express.js file as a module to bootstrap your Express application
 //
 //The process.env.NODE_ENV variable is set to the default 'development‘
