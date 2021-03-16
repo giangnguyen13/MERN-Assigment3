@@ -1,8 +1,19 @@
 // Load the application controllers
-var indexController = require('../controllers/index.server.controller');
+const indexController = require('../controllers/index.server.controller');
+const studentController = require('../controllers/student.server.controller');
+const apiPrefix = '/api/';
 
 // Define the routes module' method
 module.exports = function (app) {
     //handle a get request made to root path
     app.get('/', indexController.render); //go to http://localhost:3000/
+
+    app.post('/signin', studentController.authenticate);
+    app.get('/signout', studentController.signout);
+    app.get('/read_cookie', studentController.isSignedIn);
+
+    app.route(apiPrefix + 'students')
+        .get(studentController.list)
+        .post(studentController.create);
+    //app.get(apiPrefix + 'students', studentController.list);
 };

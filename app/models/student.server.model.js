@@ -10,7 +10,6 @@ var StudentSchema = new Schema({
     studentId: {
         type: Number,
         unique: true,
-        required: 'Username is required',
     },
     password: {
         type: String,
@@ -25,7 +24,6 @@ var StudentSchema = new Schema({
     address: String,
     city: String,
     phoneNumber: String,
-
     email: {
         type: String,
         // Validate the email format
