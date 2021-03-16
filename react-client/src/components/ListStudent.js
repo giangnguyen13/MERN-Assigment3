@@ -47,7 +47,7 @@ function ListStudent() {
                             console.log(item);
                         }}
                     >
-                        {item.username}
+                        {item.fullName}
                     </ListGroup.Item>
                 ))}
             </ListGroup>

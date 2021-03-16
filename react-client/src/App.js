@@ -14,7 +14,7 @@ import './App.css';
 import CreateStudent from './components/CreateStudent';
 import ListStudent from './components/ListStudent';
 import Login from './components/Login';
-import Welcome from './components/Welcome';
+import Home from './components/Home';
 
 function App() {
     const [isLogin, setIsLogin] = useState(false);
@@ -88,14 +88,8 @@ function App() {
                 </Navbar.Collapse>
             </Navbar>
 
-            <div className='aws'>
-                <Button variant='danger' className='btn-lg'>
-                    Home
-                </Button>
-                <h1>hello world</h1>
-            </div>
             <React.Fragment>
-                <Route render={() => <Welcome />} path='/home' />
+                <Route render={() => <Home />} path='/home' />
                 <Route render={() => <CreateStudent />} path='/create' />
                 <Route
                     render={() => <Login setIsLogin={setIsLogin} />}

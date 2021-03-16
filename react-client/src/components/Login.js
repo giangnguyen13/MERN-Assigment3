@@ -89,7 +89,7 @@ function Login(props) {
                     </Button>
                 </Jumbotron>
             ) : (
-                <Welcome />
+                <Welcome fullName={screen} />
             )}
         </>
     );
