@@ -15,6 +15,7 @@ import CreateStudent from './components/CreateStudent';
 import ListStudent from './components/ListStudent';
 import Login from './components/Login';
 import Home from './components/Home';
+import CreateCourse from './components/CreateCourse';
 
 function App() {
     const [isLogin, setIsLogin] = useState(false);
@@ -96,6 +97,7 @@ function App() {
                     path='/login'
                 />
                 <Route render={() => <ListStudent />} path='/students' />
+                <Route render={() => <CreateCourse />} path='/new_course' />
             </React.Fragment>
         </Router>
     );

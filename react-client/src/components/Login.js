@@ -9,7 +9,7 @@ function Login(props) {
     //state variable for the screen, admin or user
     const [screen, setScreen] = useState('auth');
     //store input field data, user name and password
-    const [username, setUsername] = useState();
+    const [studentId, setStudentId] = useState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState();
 
@@ -18,19 +18,18 @@ function Login(props) {
     // for initial authentication
     const auth = async () => {
         console.log('calling auth');
-        console.log(username);
         try {
             //make a get request to /authenticate end-point on the server
             const loginData = { auth: { email, password } };
             //call api
             const res = await axios.post(apiUrl, loginData);
-            console.log(res.data.auth);
-            console.log(res.data.screen);
+
+            console.log(res);
             //process the response
             if (res.data.screen !== undefined) {
                 setScreen(res.data.screen);
                 props.setIsLogin(true);
-                console.log(res.data.screen);
+                setStudentId(res.data.studentId);
             }
         } catch (e) {
             //print the error
@@ -89,7 +88,7 @@ function Login(props) {
                     </Button>
                 </Jumbotron>
             ) : (
-                <Welcome fullName={screen} />
+                <Welcome fullName={screen} studentId={studentId} />
             )}
         </>
     );

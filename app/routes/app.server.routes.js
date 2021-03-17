@@ -1,6 +1,7 @@
 // Load the application controllers
 const indexController = require('../controllers/index.server.controller');
 const studentController = require('../controllers/student.server.controller');
+const courseController = require('../controllers/course.server.controller');
 const apiPrefix = '/api/';
 
 // Define the routes module' method
@@ -15,5 +16,9 @@ module.exports = function (app) {
     app.route(apiPrefix + 'students')
         .get(studentController.list)
         .post(studentController.create);
+
+    app.route(apiPrefix + 'courses')
+        .get(courseController.list)
+        .post(courseController.create);
     //app.get(apiPrefix + 'students', studentController.list);
 };

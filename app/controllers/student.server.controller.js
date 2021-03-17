@@ -141,12 +141,15 @@ exports.authenticate = function (req, res, next) {
                     maxAge: jwtExpirySeconds * 1000,
                     httpOnly: true,
                 });
-                res.status(200).send({ screen: user.fullName });
+                res.status(200).send({
+                    screen: user.fullName,
+                    studentId: user._id,
+                });
                 //
                 //res.json({status:"success", message: "user found!!!", data:{user:
                 //user, token:token}});
 
-                req.user = user;
+                //req.user = user;
                 //call the next middleware
                 next();
             } else {

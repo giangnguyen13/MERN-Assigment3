@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ArticleSchema = new Schema({
+const CourseSchema = new Schema({
     courseCode: {
         type: String,
         trim: true,
@@ -21,5 +21,15 @@ const ArticleSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+    creator: {
+        type: Schema.ObjectId,
+        ref: 'Student',
+    },
 });
-mongoose.model('Article', ArticleSchema);
+
+CourseSchema.set('toJSON', {
+    getters: true,
+    virtuals: true,
+});
+
+mongoose.model('Course', CourseSchema);
