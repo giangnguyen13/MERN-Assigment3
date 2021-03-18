@@ -3,8 +3,9 @@ import Button from 'react-bootstrap/Button';
 import CreateCourse from './CreateCourse';
 import ListCourse from './ListCourse';
 
-function Welcome(props) {
-    const { fullName, studentId } = props;
+function Welcome() {
+    const fullName = sessionStorage.getItem('fullname');
+    const studentId = sessionStorage.getItem('studentId');
     const [action, setAction] = useState('all');
     const createCourse = () => {
         console.log('in createArticle');

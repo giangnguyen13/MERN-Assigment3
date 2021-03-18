@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     BrowserRouter as Router,
     // Switch,
@@ -6,6 +6,8 @@ import {
     // Link,
     // Redirect,
 } from 'react-router-dom';
+import axios from 'axios';
+import { isAuthenticated } from './Helper';
 //
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -16,9 +18,22 @@ import ListStudent from './components/ListStudent';
 import Login from './components/Login';
 import Home from './components/Home';
 import CreateCourse from './components/CreateCourse';
+import Welcome from './components/Welcome';
 
 function App() {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(isAuthenticated);
+    console.log(isLogin);
+    useEffect(() => {}, [isLogin]);
+    const deleteCookie = async () => {
+        try {
+            await axios.get('/signout');
+            sessionStorage.clear();
+            setIsLogin(false);
+            window.location.href = '/';
+        } catch (e) {
+            console.log(e);
+        }
+    };
     return (
         <Router>
             <Navbar bg='light' expand='lg'>
@@ -63,7 +78,8 @@ function App() {
                     {isLogin ? (
                         <>
                             <Nav.Link
-                                href='/create'
+                                href='/signout'
+                                onClick={() => deleteCookie()}
                                 className='btn btn-outline-primary'
                             >
                                 Signout
@@ -88,9 +104,22 @@ function App() {
                     )}
                 </Navbar.Collapse>
             </Navbar>
-
+            {!isLogin && (
+                <h1 className='text-center'>
+                    Hello, You are not logged in yet. Please login
+                </h1>
+            )}
             <React.Fragment>
-                <Route render={() => <Home />} path='/home' />
+                <Route
+                    exact
+                    render={() => (isLogin ? <Welcome /> : <Home />)}
+                    path='/home'
+                />
+                <Route
+                    exact
+                    render={() => (isLogin ? <Welcome /> : <Home />)}
+                    path='/'
+                />
                 <Route render={() => <CreateStudent />} path='/create' />
                 <Route
                     render={() => <Login setIsLogin={setIsLogin} />}

@@ -2,6 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 
 function Home() {
+    console.log(document.cookie);
     return (
         <div className='text-center'>
             <h1>You are logged in</h1>
