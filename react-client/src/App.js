@@ -16,6 +16,10 @@ import ListStudent from './components/ListStudent';
 import Login from './components/Login';
 import Home from './components/Home';
 import CreateCourse from './components/CreateCourse';
+import ListCourses from './components/ListCourses';
+import ShowCourse from './components/ShowCourse';
+import EditCourse from './components/EditCourse';
+import ListStudentCourses from './components/ListStudentCourses';
 
 function App() {
     const [isLogin, setIsLogin] = useState(false);
@@ -56,7 +60,7 @@ function App() {
                     <Nav className='mr-auto'>
                         <Nav.Link href='/home'>Home</Nav.Link>
                         <Nav.Link href='/students'>List of Students</Nav.Link>
-                        <Nav.Link href='/listarticles'>
+                        <Nav.Link href='/courses'>
                             List of Courses
                         </Nav.Link>
                     </Nav>
@@ -98,6 +102,11 @@ function App() {
                 />
                 <Route render={() => <ListStudent />} path='/students' />
                 <Route render={() => <CreateCourse />} path='/new_course' />
+                <Route render={() => <ListCourses />} path='/courses' />
+                <Route render={() => <ListStudentCourses />} path='/studentCourses/:studentId' />
+                <Route render={() => <ShowCourse />} path='/showcourse/:courseCode' />
+                <Route render={() => <EditCourse />} path='/editcourse/:courseCode' />
+
             </React.Fragment>
         </Router>
     );

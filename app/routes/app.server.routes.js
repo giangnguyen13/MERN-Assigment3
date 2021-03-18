@@ -21,4 +21,17 @@ module.exports = function (app) {
         .get(courseController.list)
         .post(courseController.create);
     //app.get(apiPrefix + 'students', studentController.list);
+
+    //
+    app.route('/api/showcourse/:courseId')
+    .get(courseController.courseByID)
+    .put(courseController.update)
+    .delete(courseController.delete);
+    //
+    app.route('/api/studentCourses/:studentId')
+    .get(courseController.listCoursesByStudentId);
+    //
+    app.param('courseId', courseController.courseByID);
+    app.param('studentId', courseController.listCoursesByStudentId);
+
 };

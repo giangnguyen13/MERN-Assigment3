@@ -134,7 +134,7 @@ function CreateCourse(props) {
                         />
                     </Form.Group>
                     <Button variant='success' type='submit'>
-                        Create student account
+                        Create Course
                     </Button>
                 </Form>
             </Jumbotron>
