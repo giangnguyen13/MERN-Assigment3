@@ -56,8 +56,7 @@ exports.list = function (req, res) {
 };
 //
 exports.listCoursesByStudentId = function (req, res, next, studentId) {
-    var query = { "creator": studentId };  
-
+    var query = { creator: studentId };
     Course.find(query)
         .sort('-created')
         .populate('creator', 'courseCode courseName section semester')
@@ -79,8 +78,7 @@ exports.courseByID = function (req, res, next, courseId) {
         .populate('creator', 'courseCode courseName section semester')
         .exec((err, course) => {
             if (err) return next(err);
-            if (!course)
-                return next(new Error('Failed to load course ' + id));
+            if (!course) return next(new Error('Failed to load course ' + id));
             req.course = course;
             //console.log('in courseById:', req.course);
             res.status(200).json(course);
@@ -96,7 +94,7 @@ exports.read = function (req, res, next) {
 //
 exports.update = function (req, res, next) {
     console.log('update');
-    console.log('in update:', req.body)
+    console.log('in update:', req.body);
     const course = req.course;
     course.courseCode = req.body.courseCode;
     course.courseName = req.body.courseName;
@@ -106,26 +104,24 @@ exports.update = function (req, res, next) {
     course.save((err) => {
         if (err) {
             return res.status(400).send({
-                message: getErrorMessage(err)
+                message: getErrorMessage(err),
             });
         }
     });
-
 };
 
 //
 exports.delete = function (req, res) {
-    var query = { _id: req.course._id };  
+    var query = { _id: req.course._id };
 
     Course.remove(query, (err) => {
         if (err) {
             return res.status(400).send({
-                message: getErrorMessage(err)
+                message: getErrorMessage(err),
             });
         }
     });
 };
-
 
 // //The hasAuthorization() middleware uses the req.article and req.user objects
 // //to verify that the current user is the creator of the current article
