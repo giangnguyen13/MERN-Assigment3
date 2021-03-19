@@ -5,7 +5,7 @@ import ListCourses from './ListCourses';
 import ListStudentCourses from './ListStudentCourses';
 import { withRouter } from 'react-router-dom';
 
-function Welcome() {
+function Welcome(props) {
     const fullName = sessionStorage.getItem('fullname');
     const studentId = sessionStorage.getItem('studentId');
     const [action, setAction] = useState('all');
@@ -17,9 +17,8 @@ function Welcome() {
         console.log('in viewCourses');
 
         props.history.push({
-            pathname: '/studentCourses/' + studentId
-          });
-  
+            pathname: '/studentCourses/' + studentId,
+        });
     };
     return (
         <div className='text-center'>
@@ -29,7 +28,10 @@ function Welcome() {
                 <>
                     <h1>Welcome {fullName}</h1>
                     <h1>What you want do do?</h1>
-                    <Button variant='primary' onClick={() => viewCourses(studentId)}>
+                    <Button
+                        variant='primary'
+                        onClick={() => viewCourses(studentId)}
+                    >
                         View my courses
                     </Button>
                     &nbsp;&nbsp;
@@ -43,4 +45,3 @@ function Welcome() {
 }
 
 export default withRouter(Welcome);
-

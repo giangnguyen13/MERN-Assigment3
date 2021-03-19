@@ -10,7 +10,7 @@ function ListStudentCourses(props) {
     const [data, setData] = useState([]);
     const [showLoading, setShowLoading] = useState(true);
     const [listError, setListError] = useState(false);
-    const apiUrl = 'http://localhost:5000/api/studentCourses/' + props.match.params.studentId;
+    const apiUrl = `http://localhost:5000/api/studentCourses/${props.match.params.studentId}`;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,12 +20,6 @@ function ListStudentCourses(props) {
                     console.log('result.data:', result.data);
                     setShowLoading(false);
                     setData(result.data);
-                    //check if the user has logged in
-                    // if (result.data.screen !== 'auth') {
-                    //     console.log('data in if:', result.data);
-                    //     setData(result.data);
-                    //     setShowLoading(false);
-                    // }
                 })
                 .catch((error) => {
                     console.log('error in fetchData:', error);
@@ -38,10 +32,10 @@ function ListStudentCourses(props) {
     const showDetail = (id) => {
         console.log(id);
         props.history.push({
-          pathname: '/showcourse/' + id
+            pathname: '/showcourse/' + id,
         });
-      }
-    
+    };
+
     return (
         <div>
             {showLoading && (
@@ -54,7 +48,9 @@ function ListStudentCourses(props) {
                     <ListGroup.Item
                         key={idx}
                         action
-                        onClick={() => { showDetail(item._id)}}
+                        onClick={() => {
+                            showDetail(item._id);
+                        }}
                     >
                         {item.courseName}
                     </ListGroup.Item>
@@ -65,4 +61,3 @@ function ListStudentCourses(props) {
 }
 
 export default withRouter(ListStudentCourses);
-

@@ -31,7 +31,7 @@ function CreateCourse(props) {
             .post(apiUrl + 'courses', data)
             .then((result) => {
                 setShowLoading(false);
-                props.history.push(apiUrl + 'courses');
+                window.location.href = `/studentCourses/${studentId}`;
                 //props.history.push('/show/' + result.data._id);
             })
             .catch((error) => setShowLoading(false));
