@@ -23,6 +23,9 @@ import ListCourses from './components/ListCourses';
 import ShowCourse from './components/ShowCourse';
 import EditCourse from './components/EditCourse';
 import ListStudentCourses from './components/ListStudentCourses';
+import ListStudentsInCourse from './components/ListStudentsInCourse';
+
+;
 
 function App() {
     const [isLogin, setIsLogin] = useState(isAuthenticated);
@@ -130,6 +133,11 @@ function App() {
                 <Route render={() => <ListStudent />} path='/students' />
                 <Route render={() => <CreateCourse />} path='/new_course' />
                 <Route render={() => <ListCourses />} path='/courses' />
+                <Route
+                    render={() => <ListStudentsInCourse />}
+                    path='/listStudentInCourse/:courseCode'
+                />
+
                 <Route
                     render={() => <ListStudentCourses />}
                     path='/studentCourses/:studentId'

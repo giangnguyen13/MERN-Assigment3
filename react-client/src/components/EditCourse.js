@@ -58,6 +58,29 @@ function EditCourse(props) {
         setCourse({ ...course, [e.target.name]: e.target.value });
     };
 
+    const onChangeCourseName = (courseCode) => {
+        
+        let courseNameValue = '';
+        switch (courseCode) {
+            case 'COMP100':
+                courseNameValue = 'Programming 1';
+                break;
+            case 'COMP123':
+                courseNameValue = 'Programming 2';
+                break;
+            case 'COMP212':
+                courseNameValue = 'Programming 3';
+                break;
+            case 'COMP308':
+                courseNameValue = 'Emerging Technologies';
+                break;
+            case 'COMP303':
+                courseNameValue = 'Java EE';
+                break;
+        }
+        return course.courseName = courseNameValue;
+    };
+
     return (
         <div>
             {showLoading && (
@@ -68,37 +91,34 @@ function EditCourse(props) {
             <Jumbotron>
                 <Form onSubmit={updateCourse}>
                     <Form.Group>
-                        <Form.Label> Course Code</Form.Label>
+                        <Form.Label>Course Code</Form.Label>
                         <Form.Control
-                            type='text'
+                            as='select'
                             name='courseCode'
                             id='courseCode'
-                            placeholder='Enter course code'
                             value={course.courseCode}
                             onChange={onChange}
-                        />
+                        >
+                            <option value='' disabled>
+                                -- Select one --
+                            </option>
+                            <option value='COMP100'>COMP100</option>
+                            <option value='COMP123'>COMP123</option>
+                            <option value='COMP212'>COMP212</option>
+                            <option value='COMP308'>COMP308</option>
+                            <option value='COMP303'>COMP303</option>
+                        </Form.Control>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label> Course Name</Form.Label>
+                        <Form.Label>Course Name</Form.Label>
                         <Form.Control
                             type='text'
                             name='courseName'
                             id='courseName'
-                            placeholder='Enter CourseNname'
-                            value={course.courseName}
+                            placeholder='Select Course Code To Populate Course Name'
+                            value={onChangeCourseName(course.courseCode)}
                             onChange={onChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label> Semester</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='semester'
-                            id='semester'
-                            placeholder='Enter course semester'
-                            value={course.semester}
-                            onChange={onChange}
+                            disabled
                         />
                     </Form.Group>
                     <Form.Group>
@@ -119,14 +139,27 @@ function EditCourse(props) {
                             <option value='4'>Section 004</option>
                             <option value='5'>Section 005</option>
                         </Form.Control>
-                        <Form.Group>
-                            <Form.Control
-                                type='hidden'
-                                name='_id'
-                                id='_id'
-                                value={props.match.params.courseCode}
-                            />
-                        </Form.Group>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Semester</Form.Label>
+                        <Form.Control
+                            as='select'
+                            name='semester'
+                            id='semester'
+                            placeholder='Enter semester'
+                            value={course.semester}
+                            onChange={onChange}
+                        >
+                            <option value='' disabled>
+                                -- Select one --
+                            </option>
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                            <option value='4'>4</option>
+                            <option value='5'>5</option>
+                            <option value='5'>6</option>
+                        </Form.Control>
                     </Form.Group>
                     <Button variant='primary' type='submit'>
                         Update Course

@@ -54,6 +54,24 @@ exports.list = function (req, res) {
             }
         });
 };
+//It returns all courses with specific courseCode
+exports.listStudentsInCourse = function (req, res, next, courseCode) {
+    var query = { courseCode: courseCode };
+
+    Course.find(query)
+        .sort('-created')
+        .exec((err, courses) => {
+            if (err) {
+                return res.status(400).send({
+                    message: getErrorMessage(err),
+                });
+            } else {
+                res.status(200).json(courses);
+            }
+        });
+};
+
+;
 //
 exports.listCoursesByStudentId = function (req, res, next, studentId) {
     var query = { creator: studentId };

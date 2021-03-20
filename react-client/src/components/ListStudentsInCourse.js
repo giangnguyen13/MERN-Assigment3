@@ -8,7 +8,7 @@ function ListCourses(props) {
     const [data, setData] = useState([]);
     const [showLoading, setShowLoading] = useState(true);
     const [listError, setListError] = useState(false);
-    const apiUrl = 'http://localhost:5000/api/courses';
+    const apiUrl = `http://localhost:5000/api/listStudentInCourse/${props.match.params.courseCode}`;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,12 +33,12 @@ function ListCourses(props) {
         fetchData();
     }, []);
 
-    const showDetail = (courseCode) => {
+    const showDetail = (id) => {
         props.history.push({
-            pathname: '/listStudentInCourse/' + courseCode,
+            pathname: '/showcourse/' + id,
         });
     };
-    
+
     return (
         <div>
             {showLoading && (
@@ -51,9 +51,11 @@ function ListCourses(props) {
                     <ListGroup.Item
                         key={idx}
                         action
-                        onClick={() => { showDetail(item.courseCode)}}
+                        onClick={() => {
+                            /*showDetail(item._id)*/
+                        }}
                     >
-                        {item.courseName}
+                        {item.creator}
                     </ListGroup.Item>
                 ))}
             </ListGroup>
@@ -62,4 +64,3 @@ function ListCourses(props) {
 }
 
 export default withRouter(ListCourses);
-
