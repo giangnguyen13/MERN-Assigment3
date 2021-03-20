@@ -50,43 +50,23 @@ exports.list = function (req, res) {
                     message: getErrorMessage(err),
                 });
             } else {
-                res.status(200).json(courses);
+                res.status(200).json(filterDuplicateCourses(courses));
             }
         });
 };
 //It returns all courses with specific courseCode
 exports.listStudentsInCourse = function (req, res, next, courseCode) {
     var query = { courseCode: courseCode };
-    var studentIds = [];
-    Course.find(query)
-        .sort('-created')
-        .exec((err, courses) => {
+    Course.find(query, (err, courses) => {
+        const studentIds = courses.map((course) => course.creator);
+        Student.find({ _id: { $in: studentIds } }, function (err, result) {
             if (err) {
-                return res.status(400).send({
-                    message: getErrorMessage(err),
-                });
+                res.status(200).json({});
             } else {
-                //res.status(200).json(courses);
-                for (var i = 0; i < courses.length; i++) {
-                    studentIds.push(courses[i].creator);
-                }
-                console.log(studentIds);
-
-                Student.find({ _id: studentIds }, (err) => {
-                    if (err) {
-                        return getErrorMessage(err);
-                    }
-                }).exec((err, students) => {
-                    if (err) {
-                        return res.status(400).send({
-                            message: getErrorMessage(err),
-                        });
-                    } else {
-                        res.status(200).json(students);
-                    }
-                });
+                res.status(200).json(result);
             }
         });
+    });
 };
 //
 exports.listCoursesByStudentId = function (req, res, next, studentId) {
@@ -156,6 +136,19 @@ exports.delete = function (req, res) {
         }
     });
 };
+
+function filterDuplicateCourses(courses) {
+    let courseCodes = [];
+    var filteredCourses = [];
+    for (let i = 0; i < courses.length; i++) {
+        console.log(courses[i].courseCode);
+        if (!courseCodes.includes(courses[i].courseCode)) {
+            courseCodes.push(courses[i].courseCode);
+            filteredCourses.push(courses[i]);
+        }
+    }
+    return filteredCourses;
+}
 
 // //The hasAuthorization() middleware uses the req.article and req.user objects
 // //to verify that the current user is the creator of the current article
