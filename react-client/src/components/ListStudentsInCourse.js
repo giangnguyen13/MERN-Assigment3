@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { withRouter } from 'react-router-dom';
 
-function ListCourses(props) {
+function ListStudentsInCourse(props) {
     const [data, setData] = useState([]);
     const [showLoading, setShowLoading] = useState(true);
     const [listError, setListError] = useState(false);
@@ -55,7 +55,7 @@ function ListCourses(props) {
                             /*showDetail(item._id)*/
                         }}
                     >
-                        {item.firstName} {item.lastName}
+                        {item.fullName}
                     </ListGroup.Item>
                 ))}
             </ListGroup>
@@ -63,4 +63,4 @@ function ListCourses(props) {
     );
 }
 
-export default withRouter(ListCourses);
+export default withRouter(ListStudentsInCourse);

@@ -54,7 +54,7 @@ exports.list = function (req, res) {
             }
         });
 };
-//It returns all courses with specific courseCode
+//
 exports.listStudentsInCourse = function (req, res, next, courseCode) {
     var query = { courseCode: courseCode };
     Course.find(query, (err, courses) => {
@@ -104,7 +104,6 @@ exports.courseByID = function (req, res, next, courseId) {
 exports.read = function (req, res, next) {
     res.status(200).json(req.course);
 };
-
 //
 exports.update = function (req, res, next) {
     console.log('update');
@@ -123,7 +122,6 @@ exports.update = function (req, res, next) {
         }
     });
 };
-
 //
 exports.delete = function (req, res) {
     var query = { _id: req.course._id };
@@ -136,7 +134,7 @@ exports.delete = function (req, res) {
         }
     });
 };
-
+//
 function filterDuplicateCourses(courses) {
     let courseCodes = [];
     var filteredCourses = [];
@@ -149,18 +147,3 @@ function filterDuplicateCourses(courses) {
     }
     return filteredCourses;
 }
-
-// //The hasAuthorization() middleware uses the req.article and req.user objects
-// //to verify that the current user is the creator of the current article
-// exports.hasAuthorization = function (req, res, next) {
-//     console.log('in hasAuthorization - creator: ', req.article.creator);
-//     console.log('in hasAuthorization - user: ', req.id);
-//     //console.log('in hasAuthorization - user: ',req.user._id)
-
-//     if (req.article.creator.id !== req.id) {
-//         return res.status(403).send({
-//             message: 'User is not authorized',
-//         });
-//     }
-//     next();
-// };
