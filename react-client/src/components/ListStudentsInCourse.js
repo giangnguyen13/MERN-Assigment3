@@ -55,7 +55,7 @@ function ListCourses(props) {
                             /*showDetail(item._id)*/
                         }}
                     >
-                        {item.creator}
+                        {item.firstName} {item.lastName}
                     </ListGroup.Item>
                 ))}
             </ListGroup>
