@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Spinner from 'react-bootstrap/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { withRouter } from 'react-router-dom';
 
-function ListCourse() {
+function ListCourses(props) {
     const [data, setData] = useState([]);
     const [showLoading, setShowLoading] = useState(true);
     const [listError, setListError] = useState(false);
@@ -31,6 +32,13 @@ function ListCourse() {
         };
         fetchData();
     }, []);
+
+    const showDetail = (courseCode) => {
+        props.history.push({
+            pathname: '/listStudentInCourse/' + courseCode,
+        });
+    };
+    
     return (
         <div>
             {showLoading && (
@@ -43,9 +51,7 @@ function ListCourse() {
                     <ListGroup.Item
                         key={idx}
                         action
-                        onClick={() => {
-                            console.log(item);
-                        }}
+                        onClick={() => { showDetail(item.courseCode)}}
                     >
                         {item.courseName}
                     </ListGroup.Item>
@@ -55,4 +61,5 @@ function ListCourse() {
     );
 }
 
-export default ListCourse;
+export default withRouter(ListCourses);
+

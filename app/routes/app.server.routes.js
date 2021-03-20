@@ -20,5 +20,21 @@ module.exports = function (app) {
     app.route(apiPrefix + 'courses')
         .get(courseController.list)
         .post(courseController.create);
+
     //app.get(apiPrefix + 'students', studentController.list);
+
+    app.route(apiPrefix + 'listStudentInCourse/:courseCode').get(courseController.listStudentsInCourse);
+    //
+    app.route('/api/showcourse/:courseId')
+        .get(courseController.courseByID)
+        .put(courseController.update)
+        .delete(courseController.delete);
+    //
+    app.route('/api/studentCourses/:studentId')
+    .get(courseController.listCoursesByStudentId);
+    //
+    app.param('courseId', courseController.courseByID);
+    app.param('studentId', courseController.listCoursesByStudentId);
+    app.param('courseCode', courseController.listStudentsInCourse);
+
 };

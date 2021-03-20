@@ -37,9 +37,9 @@ function CreateStudent(props) {
         axios
             .post(apiUrl + 'students', data)
             .then((result) => {
+                console.log('in save students');
                 setShowLoading(false);
-                props.history.push(apiUrl + 'students');
-                //props.history.push('/show/' + result.data._id);
+                window.location.href = '/students';
             })
             .catch((error) => setShowLoading(false));
     };

@@ -5,7 +5,6 @@ const saltRounds = 10;
 //Define a schema
 const Schema = mongoose.Schema;
 //
-// Define a new 'UserSchema'
 var StudentSchema = new Schema({
     studentId: {
         type: Number,

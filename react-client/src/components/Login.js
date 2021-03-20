@@ -9,7 +9,6 @@ function Login(props) {
     //state variable for the screen, admin or user
     const [screen, setScreen] = useState('auth');
     //store input field data, user name and password
-    const [studentId, setStudentId] = useState();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState();
 
@@ -23,13 +22,12 @@ function Login(props) {
             const loginData = { auth: { email, password } };
             //call api
             const res = await axios.post(apiUrl, loginData);
-
-            console.log(res);
             //process the response
             if (res.data.screen !== undefined) {
-                setScreen(res.data.screen);
+                sessionStorage.setItem('fullname', res.data.screen);
+                sessionStorage.setItem('studentId', res.data.studentId);
                 props.setIsLogin(true);
-                setStudentId(res.data.studentId);
+                window.location.href = '/home';
             }
         } catch (e) {
             //print the error
@@ -88,7 +86,7 @@ function Login(props) {
                     </Button>
                 </Jumbotron>
             ) : (
-                <Welcome fullName={screen} studentId={studentId} />
+                <Welcome />
             )}
         </>
     );

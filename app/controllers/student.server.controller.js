@@ -139,7 +139,7 @@ exports.authenticate = function (req, res, next) {
                 // here, the max age is in milliseconds
                 res.cookie('token', token, {
                     maxAge: jwtExpirySeconds * 1000,
-                    httpOnly: true,
+                    httpOnly: false,
                 });
                 res.status(200).send({
                     screen: user.fullName,

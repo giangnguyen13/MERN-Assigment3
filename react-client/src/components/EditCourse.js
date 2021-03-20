@@ -4,20 +4,35 @@ import Spinner from 'react-bootstrap/Spinner';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { withRouter } from 'react-router-dom';
 
-function CreateCourse(props) {
-    const { studentId } = props;
+function EditCourse(props) {
+    console.log('editCourse props:', props.match.params);
     const [course, setCourse] = useState({
+        _id: '',
         courseCode: '',
         courseName: '',
         section: '',
         semester: '',
-        creator: studentId,
     });
-    const [showLoading, setShowLoading] = useState(false);
-    const apiUrl = 'http://localhost:5000/api/';
+    const [showLoading, setShowLoading] = useState(true);
+    const apiUrl =
+        'http://localhost:5000/api/showcourse/' + props.match.params.courseCode;
+    //runs only once after the first render
+    useEffect(() => {
+        setShowLoading(false);
+        //call api
+        const fetchData = async () => {
+            const result = await axios(apiUrl);
+            setCourse(result.data);
+            console.log(result.data);
+            setShowLoading(false);
+        };
 
-    const saveCourse = (e) => {
+        fetchData();
+    }, []);
+
+    const updateCourse = (e) => {
         setShowLoading(true);
         e.preventDefault();
         const data = {
@@ -25,18 +40,19 @@ function CreateCourse(props) {
             courseName: course.courseName,
             section: course.section,
             semester: course.semester,
-            creator: course.creator,
         };
         axios
-            .post(apiUrl + 'courses', data)
+            .put(apiUrl, data)
             .then((result) => {
+                console.log('after calling put to update', result.data);
+                console.log(result.data._id);
+
                 setShowLoading(false);
-                window.location.href = `/studentCourses/${studentId}`;
-                //props.history.push('/show/' + result.data._id);
+                props.history.push('/showcourse/' + result.data._id);
             })
             .catch((error) => setShowLoading(false));
     };
-
+    //runs when user enters a field
     const onChange = (e) => {
         e.persist();
         setCourse({ ...course, [e.target.name]: e.target.value });
@@ -65,28 +81,6 @@ function CreateCourse(props) {
         return course.courseName = courseNameValue;
     };
 
-    //check if the user already logged-in
-    const readCookie = async () => {
-        try {
-            console.log('--- in readCookie function ---');
-
-            //
-            const res = await axios.get('http://localhost:5000/read_cookie');
-            //
-            console.log(res);
-            if (res.data.screen !== undefined) {
-                console.log(res.data.screen);
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
-    //runs the first time the view is rendered
-    //to check if user is signed in
-    useEffect(() => {
-        readCookie();
-    }, []); //only the first render
-
     return (
         <div>
             {showLoading && (
@@ -95,7 +89,7 @@ function CreateCourse(props) {
                 </Spinner>
             )}
             <Jumbotron>
-                <Form onSubmit={saveCourse}>
+                <Form onSubmit={updateCourse}>
                     <Form.Group>
                         <Form.Label>Course Code</Form.Label>
                         <Form.Control
@@ -167,16 +161,8 @@ function CreateCourse(props) {
                             <option value='5'>6</option>
                         </Form.Control>
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            type='hidden'
-                            name='creator'
-                            id='creator'
-                            value={studentId}
-                        />
-                    </Form.Group>
-                    <Button variant='success' type='submit'>
-                        Create Course
+                    <Button variant='primary' type='submit'>
+                        Update Course
                     </Button>
                 </Form>
             </Jumbotron>
@@ -184,4 +170,4 @@ function CreateCourse(props) {
     );
 }
 
-export default CreateCourse;
+export default withRouter(EditCourse);

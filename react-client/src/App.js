@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     BrowserRouter as Router,
     // Switch,
@@ -6,6 +6,8 @@ import {
     // Link,
     // Redirect,
 } from 'react-router-dom';
+import axios from 'axios';
+import { isAuthenticated } from './Helper';
 //
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -16,9 +18,29 @@ import ListStudent from './components/ListStudent';
 import Login from './components/Login';
 import Home from './components/Home';
 import CreateCourse from './components/CreateCourse';
+import Welcome from './components/Welcome';
+import ListCourses from './components/ListCourses';
+import ShowCourse from './components/ShowCourse';
+import EditCourse from './components/EditCourse';
+import ListStudentCourses from './components/ListStudentCourses';
+import ListStudentsInCourse from './components/ListStudentsInCourse';
+
+;
 
 function App() {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(isAuthenticated);
+    console.log(isLogin);
+    useEffect(() => {}, [isLogin]);
+    const deleteCookie = async () => {
+        try {
+            await axios.get('/signout');
+            sessionStorage.clear();
+            setIsLogin(false);
+            window.location.href = '/';
+        } catch (e) {
+            console.log(e);
+        }
+    };
     return (
         <Router>
             <Navbar bg='light' expand='lg'>
@@ -56,14 +78,13 @@ function App() {
                     <Nav className='mr-auto'>
                         <Nav.Link href='/home'>Home</Nav.Link>
                         <Nav.Link href='/students'>List of Students</Nav.Link>
-                        <Nav.Link href='/listarticles'>
-                            List of Courses
-                        </Nav.Link>
+                        <Nav.Link href='/courses'>List of Courses</Nav.Link>
                     </Nav>
                     {isLogin ? (
                         <>
                             <Nav.Link
-                                href='/create'
+                                href='/signout'
+                                onClick={() => deleteCookie()}
                                 className='btn btn-outline-primary'
                             >
                                 Signout
@@ -88,9 +109,22 @@ function App() {
                     )}
                 </Navbar.Collapse>
             </Navbar>
-
+            {!isLogin && (
+                <h1 className='text-center'>
+                    Hello, You are not logged in yet. Please login
+                </h1>
+            )}
             <React.Fragment>
-                <Route render={() => <Home />} path='/home' />
+                <Route
+                    exact
+                    render={() => (isLogin ? <Welcome /> : <Home />)}
+                    path='/home'
+                />
+                <Route
+                    exact
+                    render={() => (isLogin ? <Welcome /> : <Home />)}
+                    path='/'
+                />
                 <Route render={() => <CreateStudent />} path='/create' />
                 <Route
                     render={() => <Login setIsLogin={setIsLogin} />}
@@ -98,6 +132,24 @@ function App() {
                 />
                 <Route render={() => <ListStudent />} path='/students' />
                 <Route render={() => <CreateCourse />} path='/new_course' />
+                <Route render={() => <ListCourses />} path='/courses' />
+                <Route
+                    render={() => <ListStudentsInCourse />}
+                    path='/listStudentInCourse/:courseCode'
+                />
+
+                <Route
+                    render={() => <ListStudentCourses />}
+                    path='/studentCourses/:studentId'
+                />
+                <Route
+                    render={() => <ShowCourse />}
+                    path='/showcourse/:courseCode'
+                />
+                <Route
+                    render={() => <EditCourse />}
+                    path='/editcourse/:courseCode'
+                />
             </React.Fragment>
         </Router>
     );
